@@ -10,7 +10,9 @@ OBJNORM	= licht.o
 #LIBS = -lpthread -lncurses -lcdk -lwiringPi -L./
 LIBS 	=  -lwiringPi -lreadMCP -lmysqlclient
 
-CFLAGS 	= -Wall -O0 -g
+LINKS	= -L/usr/lib/mysql
+
+CFLAGS 	= -Wall -O0 -g -I/usr/include/mysql
 
 SQL 	= licht-sql
 NORM 	= licht 
