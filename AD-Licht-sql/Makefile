@@ -1,5 +1,5 @@
 #
-# Makefile Chat-Server/Client
+# Makefile ADWandler-LDR Sensor
 #
 
 CC 	= gcc
@@ -7,7 +7,6 @@ CC 	= gcc
 OBJSQL 	= licht_sql.o
 OBJNORM	= licht.o
 
-#LIBS = -lpthread -lncurses -lcdk -lwiringPi -L./
 LIBS 	=  -lwiringPi -lreadMCP -lmysqlclient
 
 LINKS	= -L/usr/lib/mysql
@@ -26,5 +25,5 @@ norm: $(OBJNORM)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
 
-#clean:
-#		rm *.o $(SERVER) $(CLIENT)
+clean:
+		rm *.o $(SQL) $(NORM)
