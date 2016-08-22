@@ -1,5 +1,5 @@
 #
-# Makefile Chat-Server/Client
+# Makefile ADWandler-LDR Sensor
 #
 
 CC 	= gcc
@@ -24,5 +24,5 @@ norm: $(OBJNORM)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
 
-#clean:
-#		rm *.o $(SERVER) $(CLIENT)
+clean:
+		rm *.o $(SQL) $(NORM)
