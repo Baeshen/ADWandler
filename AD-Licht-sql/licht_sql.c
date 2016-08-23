@@ -35,7 +35,8 @@ int main (void)
 	}
   else
     printf("\n Connection to the MySQL server successfully establish \n");
-  
+ 
+   
 
   mcpSetup();
   //lux - widerstand in k Ohm
@@ -78,6 +79,8 @@ int main (void)
 	{900,  0.5  },
 	{1000, 0.48 }
 };
+  int index = 0;
+
   float v;	
   float lux;
   float r; 
@@ -111,8 +114,8 @@ int main (void)
 	}
 		      
       }
-      char query[80];
-      sprintf(query, "INSERT INTO prog_lux VALUES(CURDATE(), CURTIME(), %f ,%f ,%f, %f, %f)", v ,r ,lux, ps, slux);
+      char query[160];
+      sprintf(query, "INSERT INTO prog_lux (datum, zeit, spannung, widerstand, lux, prozentsatz, skala_lux) VALUES(CURDATE(), CURTIME(), %f ,%f ,%f, %f, %f)", v ,r ,lux, ps, slux);
 	
   
 
@@ -125,7 +128,7 @@ int main (void)
       printf("         - R  : %0F  \n", r);
       printf("         - V  : %0F  \n", v);
       printf("    - PS + Lux: %F, %F\n", ps, slux);
-      delay(300000);
+      delay(1000);
     }	
   }
 }

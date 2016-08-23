@@ -4,6 +4,8 @@ BEGIN;
 
 CREATE TABLE prog_lux
   (
+    id	        integer		UNSIGNED AUTO_INCREMENT PRIMARY KEY,    
+
     datum 	varchar(50),
     zeit  	varchar(50),
   	
