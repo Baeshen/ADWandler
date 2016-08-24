@@ -39,8 +39,9 @@ int main (void)
    
 
   mcpSetup();
+
   //lux - widerstand in k Ohm
-  scale_t skala[] = {
+  scale_t scale[] = {
 	{0.1,100    },
 	{0.2, 70    },
 	{0.3, 50    },
@@ -79,35 +80,39 @@ int main (void)
 	{900,  0.5  },
 	{1000, 0.48 }
 };
-  int index = 0;
+  float v             	= 0.0;	
+  float lux		= 0.0;
+  float r		= 0.0; 
+  float ps		= 0.0;
+  float slux		= 0.0;  
+  
+  float curDifR		= 0.0;
+  float nextDifR	= 0.0;
 
-  float v;	
-  float lux;
-  float r; 
-  float temp[10];
-  float ps;
-  float slux;  
 
+  int scaleSize = sizeof(scale) / sizeof(scale_t);
+  
   while (1)
   {
     while (1)
     {	
        
-      r = (10 * readMcpChannel(2)) / ( 3.3 - readMcpChannel(2) );
       v = readMcpChannel(2);
+      r = (10 * v) / ( 3.3 - v );
    
-      int skalaSize = sizeof(skala) / sizeof(scale_t);
 
-      for (i = 0 ; i < skalaSize ; i++ )
+      for (i = 0 ; i < scaleSize ; i++ )
       {
-	temp[0] = skala[i].res   - r;
-	temp[1] = skala[i+1].res - r;
+        curDifR  = scale[i].res   - r;
+	nextDifR = scale[i+1].res - r;
 	
-	if (  i + 1 == skalaSize || ((temp[0] < 0) ? (temp[0] * -1) : (temp[0])) <= ((temp[1] < 0) ? (temp[1] * -1) : (temp[1])) )
+	if (  i + 1 == scaleSize || (( curDifR < 0) ? ( curDifR * -1 ) : ( curDifR )) <= (( nextDifR < 0 ) ? ( nextDifR * -1 ) : ( nextDifR )))
 	{ 
-	  ps = 2 - (r / skala[i].res) ;
-	  slux = skala[i].lux;
-	  lux = skala[i].lux * ps;
+	
+	  printf("Index: %i; curDifR: %f ; nextDifR: %f" , i,curDifR, nextDifR);
+	  ps = 2 - (r / scale[i].res);
+	  slux = scale[i].lux;
+	  lux = scale[i].lux * ps;
 	  
   
 	  break;
@@ -115,7 +120,7 @@ int main (void)
 		      
       }
       char query[160];
-      sprintf(query, "INSERT INTO prog_lux (datum, zeit, spannung, widerstand, lux, prozentsatz, skala_lux) VALUES(CURDATE(), CURTIME(), %f ,%f ,%f, %f, %f)", v ,r ,lux, ps, slux);
+      sprintf(query, "INSERT INTO prog_lux (datum, zeit, spannung, widerstand, lux, prozentsatz, scale_lux) VALUES(CURDATE(), CURTIME(), %f ,%f ,%f, %f, %f)", v ,r ,lux, ps, slux);
 	
   
 
